@@ -61,11 +61,6 @@ function tokenize(input: string) {
         }
         throw new Error(`Invalid character [${char}]. Only numbers with dot delimiter and [+-*/] operator symbols allowed.`);
     }
-    tokens.forEach(token => {
-        if (/[+\-/*]{2,}/.test(token as string)) {
-            throw new Error(`Invalid operator [${token}]. Only single operator symbols allowed between numbers.`);
-        };
-    });
     return tokens;
 }
 
