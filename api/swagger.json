@@ -1,0 +1,59 @@
+
+{
+  "swagger": "2.0",
+  "info": {
+      "description": "This is a NodeJS API gCalc project ",
+      "version": "1.0.0",
+      "title": "gCalc API",
+      "contact": {
+          "email": "roma.derski@gmail.com"
+      },
+      "license": {
+          "name": "Apache 2.0",
+          "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+      }
+  },
+  "schemes": ["http"],
+  "host": "localhost:8000",
+  "basePath": "/",
+  "paths" : {
+      "/calculate" : {
+          "post" : {
+              "summary" : "Evaluate an expression",
+              "description": "Evaluate an expression",
+              "produces": ["application/json"],
+              "consumes": ["application/json"],
+              "parameters": [
+                  {
+                      "in": "body",
+                      "name": "body",
+                      "description": "expression string",
+                      "required": true,
+                      "schema": {
+                          "type": "object",
+                          "properties": {
+                              "expression" : {
+                                  "type": "string"
+                              } 
+                          }
+                      }
+                  }
+              ],
+              "responses": {
+                  "200": {
+                      "description": "successful evaluation result",
+                      "schema": {
+                          "type": "string"
+                      }
+                  },
+                  "400": {
+                      "description": "Invalid expression message",
+                      "schema": {
+                          "result": "string"
+                      }
+                  }
+              }
+          }
+      }
+  }
+}

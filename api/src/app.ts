@@ -2,21 +2,23 @@ import express from "express";
 import bodyParser from "body-parser";
 import { Request, Response } from 'express';
 import { evaluateExpression, Expression, Result } from "./evaluate.service";
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './../swagger.json';
 
 const host = process.env.HOST || 'localhost';
 const port = process.env.PORT ? parseInt(process.env.PORT) : 8000;
 
 const app = express();
 app.use(bodyParser.json());
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-const requestListener = function (req: Request<{}, {}, Expression>, res: Response<{}, {}, Result>) {
+const requestListener = function (req: Request<{}, {}, Expression>, res: Response<Result>) {
     const { expression } = req.body;
-
-    if (expression === undefined) {
-        return res.status(400).json({message: "[expression] is required"});
-    }
     
     try {
+        if (expression === undefined) {
+            throw new Error("[expression] is required");
+        }
         const calcResult = evaluateExpression(req.body.expression);
         return res.status(200).json({result: calcResult});
     } catch (e) {

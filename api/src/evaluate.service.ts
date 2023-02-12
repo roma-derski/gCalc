@@ -4,6 +4,7 @@ export type Expression = {
 
 export type Result = {
     result: number;
+    message?: string;
 }
 
 export function evaluateExpression(expression: string): number {
