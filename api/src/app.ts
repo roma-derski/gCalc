@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+import cors from "cors";
 import { Request, Response } from 'express';
 import { evaluateExpression, Expression, Result } from "./evaluate.service";
 import swaggerUi from 'swagger-ui-express';
@@ -27,7 +28,7 @@ const requestListener = function (req: Request<{}, {}, Expression>, res: Respons
     
 };
 
-app.post("/calculate", requestListener);
+app.post("/calculate", cors(), requestListener);
 app.use("*", (req, res) => {
     res.status(404).json({
         message: "Wrong path. Please use [POST /calculate]"
