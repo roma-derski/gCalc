@@ -1,9 +1,0 @@
-# Coverage reports
-api/coverage
-
-# Dependency directory
-web/node_modules
-api/node_modules
-
-# Ignore built ts files
-api/build/**/*
