@@ -27,6 +27,7 @@ const buttons: Button[] = [
 
 function Calculator() {
     const [expression, setExpression] = useState<string>("");
+    const [error, setError] = useState("");
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>): void => {
         const target = event.target as HTMLTextAreaElement;
@@ -34,25 +35,36 @@ function Calculator() {
         setExpression(expression + target.value);
     };
 
-    const handleEqual = (): void => {
-
-        // try {
-        //     setExpression(eval(expression).toString());
-        // } catch (e) {
-        //     setExpression("error");
-        // }
-        fetch('http://localhost:8000/calculate')
-            .then(response => response.json())
-            .then(data => console.log(data));
+    const handleEqual = () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ expression: expression.toString() })
+        };
+        fetch('http://localhost:8000/calculate', requestOptions)
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                }
+                return response.json().then(error => {throw Error(error.result)});
+            })
+            .then(data => {
+                setExpression(data.result);
+                setError("");
+            })
+            .catch(e => {
+                setError(e.toString())
+            })
 
     };
 
     const handleClear = (): void => {
         setExpression("");
+        setError("");
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    const handleKeyDown = (event: { key: string }): void => {
+    const handleKeyDown = async (event: { key: string }): Promise<void> => {
         const key = event.key;
         switch (key) {
             case "0":
@@ -75,7 +87,7 @@ function Calculator() {
                 break;
             case "Enter":
             case "=":
-                handleEqual();
+                await handleEqual();
                 break;
             case "Escape":
             case "Backspace":
@@ -92,11 +104,16 @@ function Calculator() {
             document.removeEventListener("keydown", handleKeyDown);
         };
     }, [expression]);
-
+    console.log(error);
     return (
         <div className="App">
 
             <input type="text" value={expression} data-testid="result" />
+            {error && (
+                <div className="error-message">
+                    {error}
+                </div>
+            )}
 
             <div className="button-container">
                 {buttons.map((button, index) => (
@@ -117,7 +134,6 @@ function Calculator() {
                 )
                 )}
             </div>
-
         </div>
     );
 }
