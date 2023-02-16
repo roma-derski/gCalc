@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-# gCalc
-=======
 # gCalc
 
 To start project:
@@ -17,4 +14,3 @@ navigate to /api or /web folder and issue command:
 ```sh
 npm test
 ```
->>>>>>> master
