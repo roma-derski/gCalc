@@ -5,6 +5,7 @@ To start project:
 docker compose up
 ```
 Project will be running at: http://localhost:3000/
+
 Swagger will be available at: http://localhost:8000/api-docs/
 
 To run tests:
