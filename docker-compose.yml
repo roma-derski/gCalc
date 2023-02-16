@@ -1,0 +1,20 @@
+version: '3.8'
+services:
+  server:
+    build:
+      context: ./api/
+      dockerfile: Dockerfile
+      target: base
+    command: npm start
+    expose:
+      - '8000'
+    ports:
+      - '8000:8000'
+  client:
+    build:
+      context: ./web/
+    command: npm start
+    depends_on:
+      - server
+    ports:
+      - '3000:3000'
