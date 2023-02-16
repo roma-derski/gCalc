@@ -6,7 +6,7 @@ import { evaluateExpression, Expression, Result } from "./evaluate.service";
 import swaggerUi from 'swagger-ui-express';
 import swaggerDocument from './../swagger.json';
 
-const host = process.env.HOST || 'localhost';
+const host = process.env.HOST || '0.0.0.0';
 const port = process.env.PORT ? parseInt(process.env.PORT) : 8000;
 
 const app = express();

@@ -1,13 +1,17 @@
-FROM node:18
+FROM node:18 as base
 
 WORKDIR /app
 
-COPY package.json .
+COPY package*.json ./
 
-RUN npm install
+RUN npm i
 
 COPY . .
 
-EXPOSE 4000
+EXPOSE 8000
 
-CMD ["npm", "start"]
+ENV NODE_PATH=./build/src
+
+RUN npm run build
+
+# CMD ["npm", "start"]
